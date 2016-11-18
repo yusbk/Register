@@ -1,0 +1,65 @@
+
+#+Author: Yusman Kamaleri
+#+Title: Prosesskart for etablering av register
+#+options: toc:nil date:nil author:nil
+
+#+LATEX_HEADER: \usepackage[margin=0.5in]{geometry}
+
+
+
+Forslag til prosesskart for å ha et overordnet oversikt i prosessene for et register
+
+#+BEGIN_SRC ditaa :file ~/Git-work/Register/prosess-kart.png :cmdline -E :exports none
+
+  +-----------------\          +-----------------------------+
+  |   cBLU          |          | Skjema 1                    |
+  |   Pasient A     |          +-----------------------------+
+  |                 +--------> | - Demografisk               |
+  \-------+---------+          | - Bruk av hjelpemidler      |
+          |                    | - Hjelpetjenester           |
+          |                    +-----------------------------+
+          |
+          |
+          |
+          v
+  +-----------------------------+
+  | Skjema 2                    |
+  +-----------------------------+
+  | - Genetisk info             |
+  | - Diagnosekoder (IDC 10)    |
+  | - Gene MIM nr.              |
+  +-----------------------------+
+
+
+#+END_SRC
+
+#+RESULTS:
+[[file:~/Git-work/Register/prosess-kart.png]]
+
+
+
+#+BEGIN_SRC plantuml :file test.png
+
+  actor Pasient #black
+  usecase UCI as "Demografi
+  --
+  Hjelpemidler
+  --
+  Helsetjenester"
+
+  Pasient --> UCI
+#+END_SRC
+
+#+attr_latex: :width 0.5\textwidth
+#+RESULTS:
+[[file:test.png]]
+
+
+#+BEGIN_SRC plantuml :file test2.png
+
+  [*] --> sk1
+  state "Skjema 1" as sk1 {
+  sk1 : Test1
+  sk1 : Test2
+  }
+#+END_SRC
