@@ -1,13 +1,11 @@
 
 #+Author: Yusman Kamaleri
-#+Title: Prosesskart for etablering av register
+#+Title: Eksempel på prosesskart for etablering av register
 #+options: toc:nil date:nil author:nil
 
 #+LATEX_HEADER: \usepackage[margin=0.5in]{geometry}
 
 
-
-Eksampler for prosesskart for å ha et overordnet oversikt i prosessene for et register
 #+LATEX: \\[1cm]
 
 #+BEGIN_SRC ditaa :file ~/Git-personal/Register/prosess-kart.png :cmdline -E :exports none
@@ -43,16 +41,20 @@ Eksampler for prosesskart for å ha et overordnet oversikt i prosessene for et r
 
 
 #+BEGIN_SRC plantuml :file test.png
+  skinparam defaultFontName TimesRoman
 
-    actor Pasient #black
-    usecase UC1 as "
-    Skjema 1
-    ==
-    Demografi
-    Hjelpemidler
-    Helsetjenester"
+  actor Pasient #black
 
-    Pasient --> UC1 : Innregistrering
+  usecase UC1 as "
+  Skjema 1
+  ==
+  Demografi
+  Hjelpemidler
+  Helsetjenester"
+
+  :Pasient: -up-> (PROM)
+  :Pasient: -up-> (PREM)
+  :Pasient: -down-> UC1 : Data inn
 
   usecase UC2 as "
   Skjema 2
@@ -70,8 +72,9 @@ Eksampler for prosesskart for å ha et overordnet oversikt i prosessene for et r
   usecase UC3 as "
   Skjema 3
   ==
-  Øye undersøkelse
-  Øye test"
+  Undersøkelse A
+  Målinger
+  Utstyr"
 
   UC1 -> UC3
 
@@ -83,21 +86,37 @@ Eksampler for prosesskart for å ha et overordnet oversikt i prosessene for et r
   actor LegeC
   :LegeC: -down-> UC3 :innlogging
 
+  usecase LC as "
+  Skjema 5
+  --
+  Lege ID
+  Sykehus"
+
+  :LegeC: -right-> LC
+
   usecase UC4 as "
   Skjema 4
   ==
-  Hørsel undersøkelse
-  Hørsel test"
+  Operasjon
+  Utstyr
+  Tid
+  Dato"
 
   UC4 <- UC1
 
   actor LegeB
   :LegeB: -down-> UC4 : innlogging
 
-  usecase a2 as "Årskontroll"
-  a2 -> UC4
 
+  usecase LB as "
+  Skjema 6
+  --
+  Lege ID
+  Sykehus"
+
+  :LegeB: -left-> LB
 #+END_SRC
+
 
 #+attr_latex: :width 0.9\textwidth
 #+RESULTS:
