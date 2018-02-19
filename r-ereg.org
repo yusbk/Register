@@ -1,0 +1,138 @@
+#+Title: eReg med resultat framvisning
+#+Author: Frode og Yusman
+#+Date: 13 Feb 2018
+
+#+options: toc:nil
+#+LANGUAGE: no
+#+LATEX_HEADER: \usepackage[AUTO]{babel}
+#+LATEX_HEADER: \hypersetup{hidelinks}
+#+LATEX_HEADER: \usepackage{fancyhdr}
+
+#+BEGIN_SRC latex :results raw
+  \pagestyle{fancy}
+  \fancyhf{}
+  \rhead{\sffamily eReg-R}
+  \lhead{\itshape Online resultattjenester}
+  \rfoot{Side \thepage}
+#+END_SRC
+
+* Sammendrag
+* Omfang
+** Behov fra registrene
+Det er et krav at nasjonale kvalitetsregistrene skal gi tilgang til registrerende
+enheter oppdaterte resultater for egen virksomhet sammenlignet med nasjonale
+resultater. Dette kan gjøres manuelt ved å gjøre analysene for hver enheter i et
+statistik program, men kreves mye tid. For å effektivisere arbeidet er det nødvending
+med automatisert løsning i form av standardisert analysekoder som registrene kan
+benytte ved behov. Statistikerne i Servicemiljø har bidratt til dette ved å lage
+Excel eller R-kode løsning. Dette er samsvar med hovedmål 2 i handlingsplan for
+Servicemiljø som bl.a å tilrettelegge løsningen til kvalitetsregistrene.
+
+** Hva er problemmet
+Løsningen som vi kan tilby idag til alle kvalitetsregistrene som benytter /eReg/ er
+at statistikerne i Servicemiljø lager analysekoder i Excel eller R som registrene
+kjøres lokalt. Dette har fungert, men bidrar også til flere utfordringer fordi lokale
+datamaskiner har forskjellige lokal tilpasninger som er vanskelig å løse. Disse vises i figur [[fig:dagens]].
+
+#+BEGIN_SRC latex :file problem.pdf :packages '(("" "tikz")) :border 1em :results raw
+\usetikzlibrary{shapes, arrows, calc, positioning}
+
+\begin{tikzpicture}
+  [
+  block/.style = {rectangle, rounded corners, top color=black!30,
+    draw, thick, node distance = 1cm, minimum height = 8mm,
+    minimum width = 3cm},
+  % bulat
+  bulat/.style = {ellipse,
+    draw, thick, node distance = 1cm,
+    minimum height = 5mm, top color=blue!30},
+  % line
+  line/.style = {draw, -stealth', thick},
+  node distance = 2cm,
+  ]
+
+  % nodes
+  \node [block] (bestil) {bestilling};
+  \node [bulat, above= of bestil] (eier) {Register eier};
+  \node [block, right= of bestil] (ut) {data utrekk};
+  \node [block, above= of ut] (ereg) {eReg};
+  % calc pkg between 'bestil' and 'ut' and downward at coordinat 0pt,-2pt
+  \node [bulat] (stat) at ($(bestil)!0.5!(ut)+(0,-2)$) {statistiker};
+  \node [block, below = of stat] (kode) {R-koder};
+  % buat center coordinate utk menetapkan posisi'r1' dan 'r2
+  \coordinate [below = of kode] (center) {};
+  \node [block, left =.5 of center] (r1) {R-prog. lokal};
+  \node [block, right =.5 of center] (r2) {R-prog. lokal};
+  \node [block, below = 2.5 of r1] (rest1) {resultater};
+  \node [block, below = 2.5 of r2] (rest2) {resultater};
+
+  % path
+  \path [line] (eier) -- (bestil);
+  \path [line] (ereg) -- (ut);
+  \path [line] (eier) -- (ereg);
+  \path [line] (ut) -- node [right = .4, scale=.8, text width = 3cm]
+  {forskjellige type \\ filformater f.eks. csv, xlsx, sav etc.} (stat) ;
+  \path [line] (bestil) -- (stat);
+  \path [line] (stat) -- node [left, scale=.8, text width=3cm]
+  {lager og tester stat. analyser som bestilt}(kode);
+  % % tekst
+  % \path [line] (kode) -- node [left, scale =.8, text width = 3cm]
+  % {R koder sendes til register eier og kjøres lokal} (r1);
+  \path [line] (kode) -- (r1);
+  % tekst inkludert
+  \path [line] (kode) -- node [right = .5, scale =.8, text width = 3cm]
+  {R koder sendes til register eier og kjøres lokal} (r2);
+  % tekst lokasjon og 'text width' kontrollere størrelse for å legge tekstene
+  \path [line] (r1) -- node [right = 1mm, text width = 3.5cm, align=center]
+  {lokale instillinger \\ oftest gir største \\ problemmer og vanskeligere å løse} (rest1);
+  \path [line] (r2) -- (rest2);
+
+\end{tikzpicture}
+#+END_SRC
+
+#+CAPTION: Dagens resultattjenester i eReg
+#+NAME: fig:dagens
+#+ATTR_LaTeX: :height 15cm :placement [!htb]
+#+RESULTS:
+[[file:problem.pdf]]
+
+** Hvordan skal vi løse problemet
+Å kunne kjøre kodene direkte via eReg /online/ sannsynligvis kan løse utfordringer
+med lokal tilpasninger. Å tilgjengeliggjøre resultater /online/ oppfyller også krav
+for å komme opp til nivå 4 av ekspert gruppe vurderinger. Ved at analysene kan kjøres
+direkte fra eReg betyr det også at hver registrerende enheter som benytter eReg har
+tilgang til sine resultater. Figure [[fig:solve]] viser dette.
+
+#+BEGIN_SRC latex :file solve.pdf :packages '(("" "tikz")) :border 1em :results raw
+  \usetikzlibrary{arrows, shapes, positioning}
+
+  \begin{tikzpicture}
+    \node [draw, minimum width = 2cm, rounded corners] (kode) {R-koder};
+    \node [fill=blue!30, text depth = 1.5cm,
+    minimum width=1.5cm, scale=2, right= of kode] (ereg) {eReg};
+    \node [draw, right=2.3cm of kode] (reg)  {};
+
+    \path [->, >=stealth, thick] (kode) edge[bend right] (reg);
+
+  \end{tikzpicture}
+
+#+END_SRC
+
+#+CAPTION: Resultat løsning
+#+NAME: fig:solve
+#+ATTR_LaTeX: :height 5cm :placement [!htb]
+#+RESULTS:
+[[file:solve.pdf]]
+
+** Tilgjengelige kompetanse
+Servicemiljø region Sør-Øst har ansatte med IT kompetanse som jobber direkte med
+utvikling i eReg og ansatte med statistikk kompetanse. Denne løsningen skal utnytte
+begge kompetansene.
+
+** Hva løsningen ikke inneholder
+* Teknisk plan
+** Programvarer
+** etc
+* Forutsetninger
+Hva kan gå galt?
+* Tidsplan
