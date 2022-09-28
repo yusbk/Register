@@ -32,9 +32,11 @@ Servicemiljø som bl.a å tilrettelegge løsningen til kvalitetsregistrene.
 Løsningen som vi kan tilby idag til alle kvalitetsregistrene som benytter /eReg/ er
 at statistikerne i Servicemiljø lager analysekoder i Excel eller R som registrene
 kjøres lokalt. Dette har fungert, men bidrar også til flere utfordringer fordi lokale
-datamaskiner har forskjellige lokal tilpasninger som er vanskelig å løse. Disse vises i figur [[fig:dagens]].
+datamaskiner har forskjellige lokal tilpasninger som er vanskelig å løse. Disse vises i figur xxx.
 
-#+BEGIN_SRC latex :file problem.pdf :packages '(("" "tikz")) :border 1em :results raw
+
+#+NAME: fig:dagens
+#+BEGIN_SRC latex :file dagens.pdf :packages '(("" "tikz")) :border 1em :results raw
 \usetikzlibrary{shapes, arrows, calc, positioning}
 
 \begin{tikzpicture}
@@ -91,17 +93,16 @@ datamaskiner har forskjellige lokal tilpasninger som er vanskelig å løse. Diss
 #+END_SRC
 
 #+CAPTION: Dagens resultattjenester i eReg
-#+NAME: fig:dagens
+#+LABEL: dagens-figur
 #+ATTR_LaTeX: :height 15cm :placement [!htb]
-#+RESULTS:
-[[file:problem.pdf]]
+[[file:dagens.pdf]]
 
 ** Hvordan skal vi løse problemet
 Å kunne kjøre kodene direkte via eReg /online/ sannsynligvis kan løse utfordringer
 med lokal tilpasninger. Å tilgjengeliggjøre resultater /online/ oppfyller også krav
 for å komme opp til nivå 4 av ekspert gruppe vurderinger. Ved at analysene kan kjøres
 direkte fra eReg betyr det også at hver registrerende enheter som benytter eReg har
-tilgang til sine resultater. Figure [[fig:solve]] viser dette.
+tilgang til sine resultater. Figure xxx viser dette.
 
 #+BEGIN_SRC latex :file solve.pdf :packages '(("" "tikz")) :border 1em :results raw
   \usetikzlibrary{arrows, shapes, positioning}
@@ -118,10 +119,11 @@ tilgang til sine resultater. Figure [[fig:solve]] viser dette.
 
 #+END_SRC
 
+#+RESULTS:
+
 #+CAPTION: Resultat løsning
 #+NAME: fig:solve
 #+ATTR_LaTeX: :height 5cm :placement [!htb]
-#+RESULTS:
 [[file:solve.pdf]]
 
 ** Tilgjengelige kompetanse
